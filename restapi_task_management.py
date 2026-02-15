@@ -76,3 +76,8 @@ def deletetask(task_id:UUID):
     raise HTTPException(status_code=404, detail="Task not deleted")
 
 
+@app.get("/tasks", response_model=List[TaskResponse])
+def get_tasks(status: Optional[TaskStatus] = None):
+    if status:
+        return [task for task in tasks if task["status"] == status]
+    return tasks
